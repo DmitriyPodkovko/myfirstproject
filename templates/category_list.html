@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Categories{% endblock title %}
+
+{% block content %}
+
+    {% for category in object_list %}
+        <p>{{ category.number }} {{ category.technology }}</p>
+    {% endfor %}
+
+{% endblock content %}
+
+

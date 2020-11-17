@@ -6,6 +6,10 @@
 </head>
 <body>
     <main>
+        {% if user.is_superuser %}
+            <p><a href="{% url 'category_list' %}">All Categories</a></p>
+            <p><a href="{% url 'category_add' %}">+ Add Category</a></p>
+        {% endif %}
         {% block content %}
         {% endblock content %}
     </main>
