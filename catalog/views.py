@@ -17,7 +17,7 @@ class CategoryListView(UserPassesTestMixin, ListView):
 class CategoryCreateView(UserPassesTestMixin, CreateView):
     model = Category
     template_name = 'category_add.html'
-    fields = ['number', 'technology']
+    fields = ['technology']
     login_url = 'login'
     success_url = reverse_lazy('category_list')
 

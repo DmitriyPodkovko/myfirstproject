@@ -6,7 +6,7 @@ class Category(models.Model):
     #     (1, 'Projects'),
     #     (2, 'Mentors'),
     # ]
-    number = models.PositiveIntegerField(unique=True, default=0)
+    # number = models.PositiveIntegerField(unique=True, default=0)
     # parent = models.IntegerField(choices=PARENT)
     technology = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
