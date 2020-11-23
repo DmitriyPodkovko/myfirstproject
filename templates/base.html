@@ -10,6 +10,9 @@
             <p><a href="{% url 'category_list' %}">All Categories</a></p>
             <p><a href="{% url 'category_add' %}">+ Add Category</a></p>
         {% endif %}
+        {% if user.is_authenticated %}
+            <p><a href="{% url 'project_new' %}">+ New Project</a></p>
+        {% endif %}
         {% block content %}
         {% endblock content %}
     </main>
