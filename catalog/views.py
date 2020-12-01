@@ -34,6 +34,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     fields = ['category', 'description']
     success_url = reverse_lazy('project_list')
 
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
