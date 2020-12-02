@@ -23,11 +23,17 @@ class CategoryCreateView(UserPassesTestMixin, CreateView):
         return self.request.user.is_superuser
 
 
+class ProjectListView(ListView):
+    model = Project
+    template_name = 'project_list.html'
+
+
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'project_new.html'
     fields = ['category', 'description']
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('project_list')
+
 
     def form_valid(self, form):
         form.instance.user = self.request.user
