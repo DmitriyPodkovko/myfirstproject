@@ -3,10 +3,13 @@
 {% block title %}Log In{% endblock title %}
 
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-success ml-2" type="submit">Log In</button>
-</form>
+  <div class="text-center py-5 px-3">
+    <h1>Welcome to My first project!</h1>
+    <p></p>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-success ml-3" type="submit">Log In</button>
+    </form>
+  </div>
 {% endblock content %}

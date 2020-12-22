@@ -3,11 +3,29 @@
 {% block title %}Projects{% endblock title %}
 
 {% block content %}
-
-    {% for project in object_list %}
-        <p>{{ project.description }} ({{ project.category }})</p>
-    {% endfor %}
-
+<div><h5>Choose a project for yourself and implement it! Good luck!</h5></div>
+<div class="table-responsive">
+  <table class="table table-dark table-borderless table-striped table-hover table-sm">
+    <caption>List of projects</caption>
+    <thead>
+      <tr>
+        <th scope="col">Project description</th>
+        <th scope="col">Rating</th>
+        <th scope="col">Date of last comment</th>
+        <th scope="col">Go to comments</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for project in object_list %}
+        <tr>
+          <td class="d-inline-block text-truncate" style="max-width: 200px;">
+            {{ project.description }} ({{ project.category }})</td>
+          <td>*****</td>
+          <td>21.01.2020</td>
+          <td><a href="#">Go -></a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock content %}
-
-
