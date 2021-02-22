@@ -1,8 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from .models import Category, Project
+
+
+class HomePageView(TemplateView):
+    template_name = 'home.html'
 
 
 class CategoryListView(UserPassesTestMixin, ListView):
@@ -33,7 +37,6 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'project_new.html'
     fields = ['category', 'description']
     success_url = reverse_lazy('project_list')
-
 
     def form_valid(self, form):
         form.instance.user = self.request.user
