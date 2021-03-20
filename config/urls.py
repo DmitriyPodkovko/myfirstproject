@@ -20,4 +20,5 @@ urlpatterns = [
     path('users/', include('django.contrib.auth.urls')),
     path('', include('catalog.urls')),
     path('catalog/', include('catalog.urls')),
+    path('forum/', include('forum.urls')),
 ]

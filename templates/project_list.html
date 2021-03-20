@@ -12,20 +12,20 @@
         <th scope="col">Project description</th>
         <th scope="col">Rating</th>
         <th scope="col">Date of last comment</th>
-        <th scope="col">Go to comments</th>
       </tr>
     </thead>
     <tbody>
       {% for project in object_list %}
         <tr>
           <td class="d-inline-block text-truncate" style="max-width: 200px;">
-            {{ project.description }} ({{ project.category }})</td>
+            <a href="{% url 'forum_list' project.pk %}">{{ project.description }} ({{ project.category }})</a>
+          </td>
           <td>*****</td>
           <td>21.01.2020</td>
-          <td><a href="#">Go -></a></td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
+  <a href="{% url 'project_new' %}">+ New Project</a>
 </div>
 {% endblock content %}
