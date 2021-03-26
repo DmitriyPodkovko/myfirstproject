@@ -3,12 +3,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
-from .models import Forum
+from .models import Comment
 from catalog.models import Project
 
 
 class ForumListView(ListView):
-    model = Forum
+    model = Comment
     template_name = 'forum_list.html'
 
     def get_context_data(self, **kwargs):
@@ -23,7 +23,7 @@ class ForumListView(ListView):
 
 
 class ForumCreateView(LoginRequiredMixin, CreateView):
-    model = Forum
+    model = Comment
     template_name = 'comment_new.html'
     fields = ['comment']
 
