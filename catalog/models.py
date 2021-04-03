@@ -1,4 +1,5 @@
 from django.db import models
+from forum.models import ProjectForum
 
 
 class Category(models.Model):
@@ -22,6 +23,11 @@ class Project(models.Model):
     description = models.TextField(max_length=5000, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self):
+        super().save()
+        if not ProjectForum.objects.filter(project=self).exists():
+            ProjectForum.objects.create(project=self)
 
     def __str__(self):
         return self.description[:50]

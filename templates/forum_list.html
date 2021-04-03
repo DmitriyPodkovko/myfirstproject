@@ -7,5 +7,5 @@
     {% for forum in object_list %}
          <p>{{ forum.user.username }} {{ forum.comment }}</p>
     {% endfor %}
-    <a href="{% url 'comment_new' pk=pk %}">+ New comment</a>
+    <a href="{% url 'comment_new' num_forum %}">+ New comment</a>
 {% endblock content %}
