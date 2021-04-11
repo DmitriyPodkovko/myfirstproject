@@ -14,7 +14,6 @@ class CommentList(ListView):
         context = super().get_context_data()
         project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
         context['num_forum'] = project_forum.pk
-
         return context
 
     def get_queryset(self):
