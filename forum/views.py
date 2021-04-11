@@ -12,7 +12,9 @@ class CommentList(ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        context['num_forum'] = self.kwargs.get('pk')
+        project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
+        context['num_forum'] = project_forum.pk
+
         return context
 
     def get_queryset(self):
@@ -27,7 +29,8 @@ class CommentCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        context['num_forum'] = self.kwargs.get('pk')
+        project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
+        context['num_forum'] = project_forum.pk
         return context
 
     def form_valid(self, form):
