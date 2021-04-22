@@ -30,6 +30,7 @@ class CategoryCreateView(UserPassesTestMixin, CreateView):
 class ProjectListView(ListView):
     model = Project
     template_name = 'project_list.html'
+    ordering = ['-created_at_comment']
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
