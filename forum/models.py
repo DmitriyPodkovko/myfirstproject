@@ -1,6 +1,5 @@
-from django.db import models, connection
+from django.db import models
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 
 
 class ProjectForum(models.Model):
@@ -18,10 +17,8 @@ class Comment(models.Model):
 
     def save(self):
         super().save()
-        with connection.cursor() as cursor:
-            project_main = get_object_or_404(ProjectForum, id=self.project_forum.id)
-            cursor.execute("UPDATE catalog_project SET created_at_comment = %s WHERE id=%s",
-                           [self.created_at, project_main.id])
+        self.project_forum.project.created_at_comment = self.created_at
+        self.project_forum.project.save()
 
     def __str__(self):
         return self.comment[:50]
