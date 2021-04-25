@@ -15,5 +15,10 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self):
+        super().save()
+        self.project_forum.project.created_at_comment = self.created_at
+        self.project_forum.project.save()
+
     def __str__(self):
         return self.comment[:50]

@@ -21,7 +21,7 @@
             <a href="{% url 'forum_list' project.pk %}">{{ project.description }} ({{ project.category }})</a>
           </td>
           <td>*****</td>
-          <td>21.01.2020</td>
+          <td>{{ project.created_at_comment }}</td>
         </tr>
       {% endfor %}
     </tbody>
