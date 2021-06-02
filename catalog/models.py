@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from forum.models import ProjectForum
@@ -27,6 +28,23 @@ class Project(models.Model):
     created_at_comment = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def avg_stars(self):
+        star = self.ratings.all().aggregate(Avg('score'))
+        if star['score__avg'] is not None:
+            self.stars = round(star['score__avg'])
+            self.save()
+        return round(star['score__avg']) if star['score__avg'] is not None else star['score__avg']
+
+        # sum = 0
+        # ratings = self.ratings.all()
+        # for rating in ratings:
+        #     sum += rating.score
+        # if len(ratings) > 0:
+        #     return sum / len(ratings)
+        # else:
+        #     return 0
 
     def save(self):
         super().save()
