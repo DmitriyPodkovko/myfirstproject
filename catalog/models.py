@@ -29,23 +29,6 @@ class Project(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    @property
-    def avg_stars(self):
-        star = self.ratings.all().aggregate(Avg('score'))
-        if star['score__avg'] is not None:
-            self.stars = round(star['score__avg'])
-            self.save()
-        return round(star['score__avg']) if star['score__avg'] is not None else star['score__avg']
-
-        # sum = 0
-        # ratings = self.ratings.all()
-        # for rating in ratings:
-        #     sum += rating.score
-        # if len(ratings) > 0:
-        #     return sum / len(ratings)
-        # else:
-        #     return 0
-
     def save(self):
         super().save()
         if not ProjectForum.objects.filter(project=self).exists():
@@ -61,6 +44,14 @@ class Rating(models.Model):
     score = models.IntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self):
+        super().save()
+        scores = Rating.objects.filter(project_id=self.project_id).aggregate(Avg('score'))
+        star = scores['score__avg']
+        if star is not None:
+            self.project.stars = round(star)
+            self.project.save()
 
     def __str__(self):
         return self.score
