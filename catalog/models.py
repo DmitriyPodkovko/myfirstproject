@@ -41,13 +41,13 @@ class Project(models.Model):
 class Rating(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='ratings')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings')
-    score = models.IntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    score = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self):
         super().save()
-        scores = Rating.objects.filter(project_id=self.project_id).aggregate(Avg('score'))
+        scores = self.project.ratings.aggregate(Avg('score'))
         star = scores['score__avg']
         if star is not None:
             self.project.stars = round(star)

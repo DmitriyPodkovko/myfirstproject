@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from .models import Category, Project, Rating
 
@@ -45,11 +46,25 @@ class ProjectCreate(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class RatingDeny(TemplateView):
+    template_name = 'rating_deny.html'
+
+
 class RatingCreate(LoginRequiredMixin, CreateView):
     model = Rating
     template_name = 'rating_new.html'
     fields = ['score']
     success_url = reverse_lazy('project_list')
+
+    def is_limit(self):
+        return Rating.objects.filter(user=self.request.user,
+                                     project=self.kwargs.get('pk')).count() > 0
+
+    def post(self, request,  *args, **kwargs):
+        if self.is_limit():
+            return HttpResponseRedirect(reverse('rating_deny'))
+        else:
+            return super().post(request,  *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.user = self.request.user

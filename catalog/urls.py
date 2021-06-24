@@ -5,6 +5,7 @@ from .views import (
     CategoryCreate,
     ProjectList,
     ProjectCreate,
+    RatingDeny,
     RatingCreate
 )
 
@@ -14,6 +15,6 @@ urlpatterns = [
     path('categories/add/', CategoryCreate.as_view(), name='category_add'),
     path('projects/', ProjectList.as_view(), name='project_list'),
     path('projects/new/', ProjectCreate.as_view(), name='project_new'),
+    path('projects/rate/deny/', RatingDeny.as_view(), name='rating_deny'),
     path('projects/<int:pk>/rate/new/', RatingCreate.as_view(), name='rating_new'),
-
 ]
