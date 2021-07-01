@@ -58,7 +58,7 @@ class RatingCreate(LoginRequiredMixin, CreateView):
 
     def is_limit(self):
         return Rating.objects.filter(user=self.request.user,
-                                     project=self.kwargs.get('pk')).count() > 0
+                                     project=self.kwargs.get('pk')).exists()
 
     def post(self, request,  *args, **kwargs):
         if self.is_limit():
