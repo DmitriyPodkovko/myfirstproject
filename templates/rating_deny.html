@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Estimate{% endblock title %}
+
+{% block content %}
+  <p class="lead"><a href="{% url 'project_list' %}"><- back to All Projects</a></p>
+  <div class="text-center py-5 px-3">
+    <h1>You have already rated this project!</h1>
+  </div>
+{% endblock content %}

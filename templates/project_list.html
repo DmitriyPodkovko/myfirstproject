@@ -20,7 +20,9 @@
           <td class="d-inline-block text-truncate" style="max-width: 200px;">
             <a href="{% url 'forum_list' project.pk %}">{{ project.description }} ({{ project.category }})</a>
           </td>
-          <td>*****</td>
+          <td>
+            <a href="{% url 'rating_new' project.pk %}">{{ project.stars }}</a>
+          </td>
           <td>{{ project.created_at_comment }}</td>
         </tr>
       {% endfor %}

@@ -1,15 +1,17 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
-from .models import Category, Project
+from django.http.response import HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404
+from .models import Category, Project, Rating
 
 
-class HomePageView(TemplateView):
+class HomePage(TemplateView):
     template_name = 'home.html'
 
 
-class CategoryListView(UserPassesTestMixin, ListView):
+class CategoryList(UserPassesTestMixin, ListView):
     model = Category
     template_name = 'category_list.html'
 
@@ -17,7 +19,7 @@ class CategoryListView(UserPassesTestMixin, ListView):
         return self.request.user.is_superuser
 
 
-class CategoryCreateView(UserPassesTestMixin, CreateView):
+class CategoryCreate(UserPassesTestMixin, CreateView):
     model = Category
     template_name = 'category_add.html'
     fields = ['technology']
@@ -27,13 +29,13 @@ class CategoryCreateView(UserPassesTestMixin, CreateView):
         return self.request.user.is_superuser
 
 
-class ProjectListView(ListView):
+class ProjectList(ListView):
     model = Project
     template_name = 'project_list.html'
     ordering = ['-created_at_comment']
 
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreate(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'project_new.html'
     fields = ['category', 'description']
@@ -41,4 +43,30 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class RatingDeny(TemplateView):
+    template_name = 'rating_deny.html'
+
+
+class RatingCreate(LoginRequiredMixin, CreateView):
+    model = Rating
+    template_name = 'rating_new.html'
+    fields = ['score']
+    success_url = reverse_lazy('project_list')
+
+    def is_limit(self):
+        return Rating.objects.filter(user=self.request.user,
+                                     project=self.kwargs.get('pk')).exists()
+
+    def post(self, request,  *args, **kwargs):
+        if self.is_limit():
+            return HttpResponseRedirect(reverse('rating_deny'))
+        else:
+            return super().post(request,  *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.project = get_object_or_404(Project, id=self.kwargs.get('pk'))
         return super().form_valid(form)

@@ -1,16 +1,20 @@
 from django.urls import path
 from .views import (
-    HomePageView,
-    CategoryListView,
-    CategoryCreateView,
-    ProjectListView,
-    ProjectCreateView
+    HomePage,
+    CategoryList,
+    CategoryCreate,
+    ProjectList,
+    ProjectCreate,
+    RatingDeny,
+    RatingCreate
 )
 
 urlpatterns = [
-    path('', HomePageView.as_view(), name='home'),
-    path('categories/', CategoryListView.as_view(), name='category_list'),
-    path('categories/add/', CategoryCreateView.as_view(), name='category_add'),
-    path('projects/', ProjectListView.as_view(), name='project_list'),
-    path('projects/new/', ProjectCreateView.as_view(), name='project_new'),
+    path('', HomePage.as_view(), name='home'),
+    path('categories/', CategoryList.as_view(), name='category_list'),
+    path('categories/add/', CategoryCreate.as_view(), name='category_add'),
+    path('projects/', ProjectList.as_view(), name='project_list'),
+    path('projects/new/', ProjectCreate.as_view(), name='project_new'),
+    path('projects/rate/deny/', RatingDeny.as_view(), name='rating_deny'),
+    path('projects/<int:pk>/rate/new/', RatingCreate.as_view(), name='rating_new'),
 ]
