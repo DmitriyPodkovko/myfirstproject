@@ -1,0 +1,7 @@
+{
+  "scripts": {
+    "dokku": {
+      "predeploy": "heroku config:set DISABLE_COLLECTSTATIC=1"
+    }
+  }
+}
