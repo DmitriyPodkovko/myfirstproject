@@ -1,7 +1,0 @@
-{
-  "scripts": {
-    "heroku": {
-      "predeploy": "heroku config:set DISABLE_COLLECTSTATIC=1"
-    }
-  }
-}
