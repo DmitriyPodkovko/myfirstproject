@@ -80,9 +80,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'myfirstproject',
-        'USER': 'pda',
-        'PASSWORD': '1111',
-        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PASSWORD': '5866c8469a8ad2af66d27278dafb8953',
+        'HOST': 'dokku-postgres-myfirstproject',
         'PORT': '5432',
     }
 }
