@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '5866c8469a8ad2af66d27278dafb8953',
         'HOST': 'dokku-postgres-myfirstproject',
-        'PORT': '5432', 1
+        'PORT': '5432'
     }
 }
 
