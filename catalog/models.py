@@ -25,7 +25,7 @@ class Project(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='projects')
     description = models.TextField(max_length=5000, db_index=True)
     stars = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    created_at_comment = models.DateTimeField(blank=True, null=True)
+    created_at_comment = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
