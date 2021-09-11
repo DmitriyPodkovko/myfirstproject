@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='project',
             name='created_at_comment',
-            field=models.DateTimeField(blank=True, null=True),
+            field=models.DateTimeField(auto_now_add=True),
         ),
     ]
