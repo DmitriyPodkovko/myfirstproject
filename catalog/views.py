@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import CreateView
+from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http.response import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
@@ -14,15 +14,42 @@ class HomePage(TemplateView):
 class CategoryList(UserPassesTestMixin, ListView):
     model = Category
     template_name = 'category_list.html'
+    ordering = ['id']
 
     def test_func(self):
         return self.request.user.is_superuser
+
+
+class CategoryDetail(DetailView):
+    model = Category
+    template_name = 'category_detail.html'
 
 
 class CategoryCreate(UserPassesTestMixin, CreateView):
     model = Category
     template_name = 'category_add.html'
     fields = ['technology']
+    success_url = reverse_lazy('category_list')
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+
+class CategoryUpdate(UserPassesTestMixin, UpdateView):
+    model = Category
+    template_name = 'category_edit.html'
+    fields = ['technology']
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_success_url(self):
+        return reverse_lazy('category_detail', kwargs={'pk': self.kwargs['pk']})
+
+
+class CategoryDelete(UserPassesTestMixin, DeleteView):
+    model = Category
+    template_name = 'category_delete.html'
     success_url = reverse_lazy('category_list')
 
     def test_func(self):

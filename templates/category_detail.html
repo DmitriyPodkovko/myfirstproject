@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Details Categories{% endblock title %}
+
+{% block content %}
+  <p class="lead"><a href="{% url 'category_list' %}"><- back All Categories</a></p>
+  <div class="table-responsive">
+    <table class="table table-dark table-borderless table-striped table-hover table-sm">
+      <caption>Details Categories</caption>
+      <thead>
+        <tr>
+          <th scope="col">ID (database number)</th>
+          <th scope="col">Technology</th>
+          <th scope="col">Created_at</th>
+          <th scope="col">Updated_at</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ category.id }}</td>
+          <td>{{ category.technology }}</td>
+          <td>{{ category.created_at }}</td>
+          <td>{{ category.updated_at }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><a href="{% url 'category_edit' category.pk %}">+ Edit Category</a></p>
+  <p><a href="{% url 'category_delete' category.pk %}">+ Delete Category</a></p>
+{% endblock content %}

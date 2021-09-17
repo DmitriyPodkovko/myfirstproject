@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Category {% endblock title %}
+
+{% block content %}
+  <p class="lead"><a href="{% url 'category_list' %}"><- back All Categories</a></p>
+  <p class="lead"><a href="{% url 'category_detail' category.pk %}"><- back</a></p>
+  <div class="text-center py-5 px-3">
+    <h5>Edit category: {{ category.technology }}</h5>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="btn btn-primary ml-3" type="submit" value="Update">
+    </form>
+  </div>
+{% endblock content %}
