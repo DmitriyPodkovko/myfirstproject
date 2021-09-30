@@ -16,6 +16,12 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def category_projects_all(self):
+        if self.projects.all():
+            return True
+        else:
+            return False
+
     def __str__(self):
         return self.technology
 

@@ -14,15 +14,18 @@ class HomePage(TemplateView):
 class CategoryList(UserPassesTestMixin, ListView):
     model = Category
     template_name = 'category_list.html'
-    ordering = ['id']
+    ordering = ['created_at']
 
     def test_func(self):
         return self.request.user.is_superuser
 
 
-class CategoryDetail(DetailView):
+class CategoryDetail(UserPassesTestMixin, DetailView):
     model = Category
     template_name = 'category_detail.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class CategoryCreate(UserPassesTestMixin, CreateView):
@@ -47,6 +50,10 @@ class CategoryUpdate(UserPassesTestMixin, UpdateView):
         return reverse_lazy('category_detail', kwargs={'pk': self.kwargs['pk']})
 
 
+class CategoryProtect(TemplateView):
+    template_name = 'category_protect.html'
+
+
 class CategoryDelete(UserPassesTestMixin, DeleteView):
     model = Category
     template_name = 'category_delete.html'
@@ -54,6 +61,13 @@ class CategoryDelete(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+    def post(self, request,  *args, **kwargs):
+        if Category.category_projects_all(Category.objects.filter(id=self.kwargs.get('pk'))[0]):
+            # return HttpResponseRedirect(reverse('category_protect', kwargs={'pk': self.kwargs['pk']}))
+            return HttpResponseRedirect(reverse('category_protect'))
+        else:
+            return super().post(request,  *args, **kwargs)
 
 
 class ProjectList(ListView):
