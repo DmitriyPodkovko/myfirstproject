@@ -1,16 +1,8 @@
 from django.urls import path
 from .views import (
     HomePage,
-    CategoryList,
-    CategoryDetail,
-    CategoryCreate,
-    CategoryUpdate,
-    CategoryDelete,
-    CategoryProtect,
-    ProjectList,
-    ProjectCreate,
-    RatingDeny,
-    RatingCreate
+    CategoryList, CategoryDetail, CategoryCreate, CategoryUpdate, CategoryDelete,
+    ProjectList, ProjectCreate, RatingDeny, RatingCreate
 )
 
 urlpatterns = [
@@ -20,7 +12,6 @@ urlpatterns = [
     path('categories/add/', CategoryCreate.as_view(), name='category_add'),
     path('categories/<int:pk>/edit/', CategoryUpdate.as_view(), name='category_edit'),
     path('categories/<int:pk>/delete/', CategoryDelete.as_view(), name='category_delete'),
-    path('categories/protect/', CategoryProtect.as_view(), name='category_protect'),
     path('projects/', ProjectList.as_view(), name='project_list'),
     path('projects/new/', ProjectCreate.as_view(), name='project_new'),
     path('projects/rate/deny/', RatingDeny.as_view(), name='rating_deny'),

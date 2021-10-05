@@ -26,5 +26,16 @@
     </table>
   </div>
   <p><a href="{% url 'category_edit' category.pk %}">+ Edit Category</a></p>
-  <p><a href="{% url 'category_delete' category.pk %}">+ Delete Category</a></p>
+  {% if messages %}
+    {% for message in messages %}
+      <p class="alert alert-secondary" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message }}
+      </p>
+    {% endfor %}
+  {% else %}
+    <p><a href="{% url 'category_delete' category.pk %}">+ Delete Category</a></p>
+  {% endif %}
 {% endblock content %}

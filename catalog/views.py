@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http.response import HttpResponseRedirect
+from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from .models import Category, Project, Rating
@@ -23,6 +24,13 @@ class CategoryList(UserPassesTestMixin, ListView):
 class CategoryDetail(UserPassesTestMixin, DetailView):
     model = Category
     template_name = 'category_detail.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        if Category.category_projects_all(Category.objects.filter(id=self.kwargs.get('pk'))[0]):
+            messages.error(request, 'Unable to delete (you must first delete all projects with this category)')
+        return self.render_to_response(context)
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -50,10 +58,6 @@ class CategoryUpdate(UserPassesTestMixin, UpdateView):
         return reverse_lazy('category_detail', kwargs={'pk': self.kwargs['pk']})
 
 
-class CategoryProtect(TemplateView):
-    template_name = 'category_protect.html'
-
-
 class CategoryDelete(UserPassesTestMixin, DeleteView):
     model = Category
     template_name = 'category_delete.html'
@@ -61,13 +65,6 @@ class CategoryDelete(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser
-
-    def post(self, request,  *args, **kwargs):
-        if Category.category_projects_all(Category.objects.filter(id=self.kwargs.get('pk'))[0]):
-            # return HttpResponseRedirect(reverse('category_protect', kwargs={'pk': self.kwargs['pk']}))
-            return HttpResponseRedirect(reverse('category_protect'))
-        else:
-            return super().post(request,  *args, **kwargs)
 
 
 class ProjectList(ListView):
