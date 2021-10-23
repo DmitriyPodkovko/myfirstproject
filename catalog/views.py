@@ -28,7 +28,7 @@ class CategoryDetail(UserPassesTestMixin, DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
-        if Category.category_projects_all(Category.objects.filter(id=self.kwargs.get('pk'))[0]):
+        if Category.objects.filter(id=self.kwargs.get('pk'))[0].projects.exists():
             messages.error(request, 'Unable to delete (you must first delete all projects with this category)')
         return self.render_to_response(context)
 
