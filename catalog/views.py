@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http.response import HttpResponseRedirect
 from django.contrib import messages
+from django.db.models import ProtectedError
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import get_object_or_404
 from .models import Category, Project, Rating
@@ -62,6 +63,12 @@ class CategoryDelete(UserPassesTestMixin, DeleteView):
     model = Category
     template_name = 'category_delete.html'
     success_url = reverse_lazy('category_list')
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except ProtectedError:
+            return HttpResponseRedirect(reverse('category_detail', kwargs={'pk': self.kwargs['pk']}))
 
     def test_func(self):
         return self.request.user.is_superuser
