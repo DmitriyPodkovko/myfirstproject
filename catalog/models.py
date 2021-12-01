@@ -21,10 +21,16 @@ class Category(models.Model):
 
 
 class Project(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='projects')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='projects')
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
+                             null=True, related_name='projects')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,
+                                 related_name='projects')
     description = models.TextField(max_length=5000, db_index=True)
-    stars = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    stars = models.PositiveSmallIntegerField(default=0,
+                                             validators=[
+                                                 MinValueValidator(1),
+                                                 MaxValueValidator(5)
+                                             ])
     created_at_comment = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -39,9 +45,15 @@ class Project(models.Model):
 
 
 class Rating(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL, null=True, related_name='ratings')
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings')
-    score = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    user = models.ForeignKey(get_user_model(), on_delete=models.SET_NULL,
+                             null=True, related_name='ratings')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,
+                                related_name='ratings')
+    score = models.PositiveSmallIntegerField(default=0,
+                                             validators=[
+                                                 MinValueValidator(1),
+                                                 MaxValueValidator(5)
+                                             ])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

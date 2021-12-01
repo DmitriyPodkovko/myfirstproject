@@ -12,12 +12,14 @@ class CommentList(ListView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
+        project_forum = get_object_or_404(ProjectForum,
+                                          project=self.kwargs.get('pk'))
         context['num_forum'] = project_forum.pk
         return context
 
     def get_queryset(self):
-        project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
+        project_forum = get_object_or_404(ProjectForum,
+                                          project=self.kwargs.get('pk'))
         return project_forum.comments.all()
 
 
@@ -28,13 +30,15 @@ class CommentCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self):
         context = super().get_context_data()
-        project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
+        project_forum = get_object_or_404(ProjectForum,
+                                          project=self.kwargs.get('pk'))
         context['num_forum'] = project_forum.pk
         return context
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.project_forum = get_object_or_404(ProjectForum, project=self.kwargs.get('pk'))
+        form.instance.project_forum = get_object_or_404(
+            ProjectForum, project=self.kwargs.get('pk'))
         return super().form_valid(form)
 
     def get_success_url(self):
