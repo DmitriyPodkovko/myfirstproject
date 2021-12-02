@@ -29,8 +29,11 @@ class CategoryDetail(UserPassesTestMixin, DetailView):
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
-        if Category.objects.filter(id=self.kwargs.get('pk'))[0].projects.exists():
-            messages.error(request, 'Unable to delete (you must first delete all projects with this category)')
+        if Category.objects.filter(id=self.kwargs.get('pk')
+                                   )[0].projects.exists():
+            messages.error(request,
+                           'Unable to delete (you must first '
+                           'delete all projects with this category)')
         return self.render_to_response(context)
 
     def test_func(self):
@@ -56,7 +59,8 @@ class CategoryUpdate(UserPassesTestMixin, UpdateView):
         return self.request.user.is_superuser
 
     def get_success_url(self):
-        return reverse_lazy('category_detail', kwargs={'pk': self.kwargs['pk']})
+        return reverse_lazy('category_detail',
+                            kwargs={'pk': self.kwargs['pk']})
 
 
 class CategoryDelete(UserPassesTestMixin, DeleteView):
@@ -68,7 +72,8 @@ class CategoryDelete(UserPassesTestMixin, DeleteView):
         try:
             return super().post(request, *args, **kwargs)
         except ProtectedError:
-            return HttpResponseRedirect(reverse('category_detail', kwargs={'pk': self.kwargs['pk']}))
+            return HttpResponseRedirect(reverse(
+                'category_detail', kwargs={'pk': self.kwargs['pk']}))
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -113,5 +118,6 @@ class RatingCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        form.instance.project = get_object_or_404(Project, id=self.kwargs.get('pk'))
+        form.instance.project = get_object_or_404(Project,
+                                                  id=self.kwargs.get('pk'))
         return super().form_valid(form)
