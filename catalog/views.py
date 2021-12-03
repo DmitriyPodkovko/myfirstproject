@@ -106,7 +106,7 @@ class RatingCreate(LoginRequiredMixin, CreateView):
     fields = ['score']
     success_url = reverse_lazy('project_list')
 
-    def is_limit(self):
+    def is_limit(self) -> bool:
         return Rating.objects.filter(user=self.request.user,
                                      project=self.kwargs.get('pk')).exists()
 
