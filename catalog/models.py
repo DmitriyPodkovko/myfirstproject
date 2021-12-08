@@ -59,10 +59,10 @@ class Rating(models.Model):
 
     def save(self):
         super().save()
-        scores = self.project.ratings.aggregate(Avg('score'))
-        star = scores['score__avg']
+        scores: dict = self.project.ratings.aggregate(Avg('score'))
+        star: float = scores['score__avg']
         if star is not None:
-            self.project.stars = round(star)
+            self.project.stars: int = round(star)
             self.project.save()
 
     def __str__(self):
