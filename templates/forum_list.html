@@ -5,7 +5,11 @@
 {% block content %}
     <p class="lead"><a href="{% url 'project_list' %}"><- back to All Projects</a></p>
     {% for forum in object_list %}
-         <p>{{ forum.user.username }} {{ forum.comment }}</p>
+         <p><span class="badge bg-secondary" style="color:white;">
+             {{ forum.user.username }}:</span>
+             <span>"{{ forum.comment }}"</span><br>
+             <span class="badge bg-secondary" style="color:white;">
+              {{ forum.created_at }}</span></p>
     {% endfor %}
     <a href="{% url 'comment_new' num_forum %}">+ New comment</a>
 {% endblock content %}
