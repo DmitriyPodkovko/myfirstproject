@@ -5,7 +5,15 @@
 {% block content %}
     <p class="lead"><a href="{% url 'project_list' %}"><- back to All Projects</a></p>
     {% for forum in object_list %}
-         <p>{{ forum.user.username }} {{ forum.comment }}</p>
+         <p><span class="badge bg-secondary" style="color:white;">
+             {{ forum.user.username }}:</span>
+             <span>"{{ forum.comment }}"
+                {% if forum.user.id == user.id %}
+                    <a href="{% url 'comment_edit' num_forum forum.id %}">+ Edit</a>
+                    <a href="{% url 'comment_delete' num_forum forum.id %}">+ Delete</a>
+                {% endif %}</span><br>
+             <span class="badge bg-secondary" style="color:white;">
+              {{ forum.created_at }}</span></p>
     {% endfor %}
     <a href="{% url 'comment_new' num_forum %}">+ New comment</a>
 {% endblock content %}
