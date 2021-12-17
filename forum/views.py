@@ -9,7 +9,6 @@ from .models import ProjectForum, Comment
 class CommentList(ListView):
     model = Comment
     template_name = 'forum_list.html'
-    # ordering = ['created_at']
 
     def get_context_data(self):
         context = super().get_context_data()
@@ -21,7 +20,7 @@ class CommentList(ListView):
     def get_queryset(self):
         project_forum = get_object_or_404(ProjectForum,
                                           project=self.kwargs.get('pk'))
-        return project_forum.comments.all()
+        return project_forum.comments.all().order_by('created_at')
 
 
 class CommentCreate(LoginRequiredMixin, CreateView):
