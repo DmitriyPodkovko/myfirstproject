@@ -38,4 +38,29 @@
   {% else %}
     <p><a href="{% url 'category_delete' category.pk %}">+ Delete Category</a></p>
   {% endif %}
+  {% if category.projects.exists %}
+    <div class="table-responsive">
+      <table class="table table-dark table-borderless table-striped table-hover table-sm">
+        <caption>List of projects</caption>
+        <thead>
+          <tr>
+            <th scope="col">Project description</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Date of last comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for project in category.projects.all %}
+            <tr>
+              <td class="d-inline-block text-truncate" style="max-width: 200px;">
+                {{ project.description }} ({{ project.category }})
+              </td>
+              <td>{{ project.stars }}</td>
+              <td>{{ project.created_at_comment }}</td>
+            </tr>
+          {% endfor %}
+       </tbody>
+     </table>
+    </div>
+  {% endif %}
 {% endblock content %}
