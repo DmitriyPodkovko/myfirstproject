@@ -7,7 +7,11 @@
     {% for forum in object_list %}
          <p><span class="badge bg-secondary" style="color:white;">
              {{ forum.user.username }}:</span>
-             <span>"{{ forum.comment }}"</span><br>
+             <span>"{{ forum.comment }}"
+                {% if forum.user.id == user.id %}
+                    <a href="{% url 'comment_edit' num_forum forum.id %}">+ Edit</a>
+                    <a href="{% url 'comment_delete' num_forum forum.id %}">+ Delete</a>
+                {% endif %}</span><br>
              <span class="badge bg-secondary" style="color:white;">
               {{ forum.created_at }}</span></p>
     {% endfor %}

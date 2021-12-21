@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Comment{% endblock title %}
+
+{% block content %}
+  <p class="lead"><a href="{% url 'forum_list' comment.project_forum.pk %}"><- back to Forum</a></p>
+  <div class="text-center py-5 px-3">
+    <form action="" method="post">
+        {% csrf_token %}
+        <h5>Are you sure you want to delete?<br>"{{ comment.comment }}"</h5>
+        <input class="btn btn-primary ml-3" type="submit" value="Confirm">
+    </form>
+  </div>
+{% endblock content %}

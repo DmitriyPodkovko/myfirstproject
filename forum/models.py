@@ -19,6 +19,9 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['created_at']
+
     def save(self):
         super().save()
         self.project_forum.project.created_at_comment = self.created_at
