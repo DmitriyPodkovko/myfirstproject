@@ -20,7 +20,7 @@ class CommentList(ListView):
     def get_queryset(self):
         project_forum = get_object_or_404(ProjectForum,
                                           project=self.kwargs.get('pk'))
-        return project_forum.comments.all().order_by('created_at')
+        return project_forum.comments.all()
 
 
 class CommentCreate(LoginRequiredMixin, CreateView):
